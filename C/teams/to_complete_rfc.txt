@@ -1,0 +1,123 @@
+---------> SERVER TO CLIENT <---------
+
+
+client_event_logged_in                  -> login "user_uuid" "user_name"
+
+client_event_logged_out                 -> logout "user_uuid" "user_name"
+
+
+
+// event
+client_event_private_message_received   -> message_received "user uuid" "message body"
+
+client_event_thread_reply_received      -> thread_reply "team_uuid" "thread_uuid" "user_uuid" "reply_body"
+
+client_event_team_created               -> team_created "team_uuid" "team_name" "team_description"
+
+client_event_channel_created            -> channel_created "channel_uuid" "channel_name" "channel_description"
+
+client_event_thread_created             -> thread_created "thread_uuid" "user_uuid" "thread_timestamp" "thread_title" "thread_body"
+
+
+
+
+//first
+client_print_users                      -> print_users "user_uuid" "user_name" "user_status"
+
+client_print_teams                      -> print_teams "team_uuid" "team_name" "team_description"
+
+client_team_print_channels              -> print_channels "channel_uuid" "channel_name" "channel_description"
+
+client_channel_print_threads            -> print_threads "thread_uuid" "user_uuid" "thread_timestamp" "thread_title" "thread_body"
+
+client_thread_print_replies             -> print_replies "thread_uuid" "user_uuid" "reply_timestamp" "reply_body"
+
+
+
+
+//second
+client_private_message_print_messages   -> print_message "sender_uuid" "message_timestamp" "message_body"
+
+client_print_user                       -> print_user "user_uuid" "user_name" "user_status"
+
+client_print_team                       -> print_team "team_uuid" "team_name" "team_description"
+
+client_print_channel                    -> print_channel "channel_uuid" "channel_name" "channel_description"
+
+client_print_thread                     -> print_thread "thread_uuid" "user_uuid" "thread_timestamp" "thread_title" "thread_body"
+
+
+
+
+
+//third
+client_print_team_created               -> print_team_created "team_uuid" "team_name" "team_description"
+
+client_print_channel_created            -> print_channel_created "channel_uuid" "channel_name" "channel_description"
+
+client_print_thread_created             -> print_thread_created "thread_uuid" "user_uuid" "thread_timestamp" "thread_title" "thread_body"
+
+client_print_reply_created              -> print_reply_created "thread_uuid" "user_uuid" "reply_timestamp" "reply_body"
+
+client_print_subscribed                 -> print_subscribed "user_uuid" "team_uuid"
+
+
+
+
+
+// error
+client_print_unsubscribed               -> print_unsubscribed "user_uuid" "team_uuid"
+
+client_error_unknown_team               -> err_unknown_team "team_uuid"
+
+client_error_unknown_channel            -> err_unknown_channel "channel_uuid"
+
+client_error_unknown_thread             -> err_unknown_thread "thread_uuid"
+
+client_error_unknown_user               -> err_unknown_user "user_uuid"
+
+
+
+
+
+//second
+client_error_unauthorized               -> err_unauthorized
+
+client_error_already_exist              -> err_already_exist
+
+
+
+---------> CLIENT TO SERVER <---------
+
+
+/help                                   -> -- Handle by client --
+
+/login [“user_name”]                    -> USER <SP> <user_name> <CRLF>
+
+/logout                                 -> QUIT <CRLF>
+
+/users                                  -> LUSERS <CRLF>
+
+/user [“user_uuid”]                     -> LUSER <SP> <user_uuid> <CRLF>
+
+/send [“user_uuid”] [“message_body”]    -> SEND <SP> <user_uuid> <SP> <message> <CRLF>
+
+/messages [“user_uuid”]                 -> MESSAGES <SP> <user_uuid> <CRLF>
+
+/subscribe [“team_uuid”]                -> SUBSCRIBE <SP> <team_uuid> <CRLF>
+
+/subscribed ?[“team_uuid”]              -> SUBSCRIBED <SP> <team_uuid> <CRLF>
+
+/unsubscribe [“team_uuid”]              -> UNSUBSCRIBE <SP> <team_uuid> <CRLF>
+
+
+
+/use ?[“team_uuid”] ?[“channel_uuid”] ?[“thread_uuid”] -> USE [<SP> <team_uuid> [<SP> <channel_uuid> [<SP> <thread_uuid>]]] <CRLF>
+
+
+
+/create                                 -> CREATE <SP> [content] <CRLF>
+
+/list                                   -> LIST <CRLF>
+
+/info                                   -> INFO <CRLF>

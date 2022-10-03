@@ -1,0 +1,207 @@
+EPITECH MyTeams Protocol
+
+You MUST have an account without password
+
+The following are the mandatory FTP commands from client to server:
+
+        USER <SP> <user_name> <CRLF>                                                : Set the user_name used by client
+        QUIT <CRLF>                                                                 : Disconnect the client from the server
+
+        HELP <CRLF>                                                                 : Print help information
+
+        LUSERS <CRLF>                                                               : Get the list of all users that exist on the domain
+        LUSER <SP> <user_uuid> <CRLF>                                               : Get information about a user
+
+        SEND <SP> <user_uuid> <SP> <message> <CRLF>                                 : Send a message to a user
+
+        MESSAGES <SP> <user_uuid> <CRLF>                                            : List all messages exchange with an user
+
+        SUBSCRIBE <SP> <team_uuid> <CRLF>                                           : Subscribe to the event of a team and its subdirectories (enable reception of all events from a team)
+        SUBSCRIBED [<SP> <team_uuid>] <CRLF>                                        : List all subscribed teams or list all users subscribed to a team
+        UNSUBSCRIBE <SP> <team_uuid> <CRLF>                                         : Unsubscribe from a team
+
+        USE [<SP> <team_uuid> [<SP> <channel_uuid> [<SP> <thread_uuid>]]] <CRLF>    : Use specify a context team/channel/thread
+
+        ############################################# CREATE #############################################
+        --=== When the context is not defined (/use) ===--
+            CREATE <SP> <team_name> <SP> <team_description <CRLF>                   : Create a new team
+
+         --=== When team_uuid is defined (/use “team_uuid”) ===--
+            CREATE <SP> <channel_name> <SP> <channel_description <CRLF>             : Create a new channel
+
+        --=== When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”) ===--
+            CREATE <SP> <thread_title> <SP> <thread_message> <CRLF>                 : Create a new thread
+
+        --=== When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”) ===--
+            CREATE <SP> <comment_body> <CRLF>                                       : Create a new reply
+
+        ############################################# LIST #############################################
+        --=== When the context is not defined (/use) ===--
+            LIST <CRLF>                                                             : List all existing teams
+
+        --=== When team_uuid is defined (/use “team_uuid”) ===--
+            LIST <CRLF>                                                             : List all existing channels
+
+        --=== When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”) ===--
+            LIST <CRLF>                                                             : List all existing threads
+
+        --=== When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”) ===--
+            LIST <CRLF>                                                             : List all existing replies
+
+        ############################################# INFO #############################################
+        --=== When the context is not defined (/use) ===--
+            INFO <CRLF>                                                             : Display currently logged user infos
+
+        --=== When team_uuid is defined (/use “team_uuid”) ===--
+            INFO <CRLF>                                                             : Display currently selected team infos
+
+        --=== When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”) ===--
+            INFO <CRLF>                                                             : Display currently selected channel infos
+
+        --=== When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”) ===--
+            INFO <CRLF>                                                             : Display currently selected thread infos
+
+
+Command-Reply Sequences
+
+The server reply is defined to contain the 3-digit code, followed by Space <SP>, followed by one line of text, and terminated by the Telnet end-of-line code <CRLF>.
+
+Example :
+
+-> USER <SP> Username <CRLF>
+<- 331 <SP> User name okay. <CRLF>
+
+-> : Request command from client to server
+<- : Reply from server to client
+
+            Connection Establishment
+               <- 220
+
+            Login
+               USER ->
+                  <- 230
+                  <- xxx
+
+            Logout
+               QUIT ->
+                  <- 221
+                  <- xxx
+
+            Action commands
+                HELP ->
+                    <- 214
+                    <- xxx
+
+                LUSERS ->
+                    <- 200
+                    <- xxx
+
+                LUSER ->
+                    <- 200
+                    <- xxx
+
+                SEND ->
+                    <- 250
+                    <- xxx
+
+                MESSAGES ->
+                    <- 200
+                    <- xxx
+
+                SUBSCRIBE ->
+                    <- 200
+                    <- xxx
+
+                SUBSCRIBED ->
+                    <- 200
+                    <- xxx
+
+                UNSUBSCRIBE ->
+                   <- 200
+                   <- xxx
+
+                USE ->
+                    <- 200
+                    <- xxx
+
+                CREATE ->
+                    <- 200
+                    <- xxx
+
+                LIST ->
+                    <- 200
+                    <- xxx
+
+                INFO ->
+                    <- 200
+                    <- xxx
+
+Numeric  Order List of Mandatory Reply Codes (Extract)
+
+         200 Command okay.
+         214 Help message.
+             On how to use the server or the meaning of a particular non-standard command.
+             This reply is useful only to the human user.
+             Command available:
+             /help : show help
+
+              /login [“user_name”] : set the user_name used by client
+              /logout : disconnect the client from the server
+
+              /users : get the list of all users that exist on the domain
+              /user [“user_uuid”] : get information about a user
+
+              /send [“user_uuid”] [“message_body”] : send a message to a user
+              /messages [“user_uuid”] : list all messages exchange with an user
+
+              /subscribe [“team_uuid”] : subscribe to the event of a team and its sub directories (enable reception of all events from a team)
+              /subscribed ?[“team_uuid”] : list all subscribed teams or list all users subscribed to a team
+              /unsubscribe [“team_uuid”] : unsubscribe from a team
+
+              /use ?[“team_uuid”] ?[“channel_uuid”] ?[“thread_uuid”] : use specify a context team/channel/thread
+
+              When the context is not defined (/use):
+              • /create [“team_name”] [“team_description”] : create a new team
+              When team_uuid is defined (/use “team_uuid”):
+              • /create [“channel_name”] [“channel_description”] : create a new channel
+              When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”):
+              • /create [“thread_title”] [“thread_message”] : create a new thread
+              When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
+              • /create [“comment_body”] : create a new reply
+
+              When the context is not defined (/use):
+              • /list : list all existing teams
+              When team_uuid is defined (/use “team_uuid”):
+              • /list : list all existing channels
+              When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”):
+              • /list : list all existing threads
+              When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
+              • /list : list all existing replies
+
+              When the context is not defined (/use):
+              • /info : display currently logged user infos
+              When team_uuid is defined (/use “team_uuid”):
+              • /info : display currently selected team infos
+              When team_uuid and channel_uuid are defined (/use “team_uuid” “channel_uuid”):
+              • /info : display currently selected channel infos
+              When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
+              • /info : display currently selected thread infos
+
+         220 Service ready for new user.
+         221 Service closing control connection.
+             Logged out if appropriate.
+         230 User logged in, proceed.
+         250 Requested file action okay, completed.
+
+         332 Need account for login.
+
+         401 Unauthorized. Already logged.
+         404 Not found.
+         425 Can't open data connection.
+
+         500 Unknown command.
+         501 Syntax error in parameters or arguments.
+         504 Command not implemented.
+         530 Not logged in.
+
+         xxx Error (RFC compliant)
